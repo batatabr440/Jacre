@@ -9,6 +9,7 @@ self.C3_GetObjectRefTable = function () {
 		C3.Behaviors.solid,
 		C3.Plugins.Text,
 		C3.Plugins.Audio,
+		C3.Plugins.Touch,
 		C3.Plugins.System.Cnds.OnLayoutStart,
 		C3.Plugins.System.Acts.SetTimescale,
 		C3.Plugins.Audio.Acts.StopAll,
@@ -30,11 +31,20 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.System.Acts.AddVar,
 		C3.Plugins.Text.Acts.SetText,
 		C3.Plugins.System.Acts.SubVar,
-		C3.JavaScriptInEvents.FolhaDeEventos1_Event13_Act3
+		C3.JavaScriptInEvents.FolhaDeEventos1_Event13_Act3,
+		C3.Plugins.Touch.Cnds.OnTouchStart,
+		C3.Plugins.Sprite.Acts.SetInstanceVar,
+		C3.Plugins.Touch.Exps.X,
+		C3.Plugins.Touch.Cnds.IsInTouch,
+		C3.Plugins.System.Cnds.Compare,
+		C3.Plugins.Sprite.Exps.X,
+		C3.Behaviors.Platform.Acts.SimulateControl,
+		C3.Plugins.Touch.Cnds.OnTouchEnd
 	];
 };
 self.C3_JsPropNameTable = [
 	{PlanoDeFundo: 0},
+	{ToqueInicioX: 0},
 	{RestritoAoLayout: 0},
 	{Plataforma: 0},
 	{Jacaré: 0},
@@ -47,6 +57,7 @@ self.C3_JsPropNameTable = [
 	{Musica: 0},
 	{FundoPlacar: 0},
 	{Vidas: 0},
+	{Toque: 0},
 	{Pontos: 0},
 	{Velocidade: 0},
 	{Pausado: 0},
@@ -63,5 +74,6 @@ self.InstanceType = {
 	Peixes: class extends self.ITextInstance {},
 	Musica: class extends self.IInstance {},
 	FundoPlacar: class extends self.ISpriteInstance {},
-	Vidas: class extends self.ITextInstance {}
+	Vidas: class extends self.ITextInstance {},
+	Toque: class extends self.IInstance {}
 }
