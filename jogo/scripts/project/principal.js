@@ -257,14 +257,14 @@ if (!document.getElementById("sweetalert-script")) {
 // Highscore
 window.maiorPontuacaoSessao = 0;
 
-window.atualizarPontuacaoSessao = function(pontosAtuais) {
+window.atualizarPontuacaoSessao = function (pontosAtuais) {
     if (pontosAtuais > window.maiorPontuacaoSessao) {
         window.maiorPontuacaoSessao = pontosAtuais;
     }
 };
 
 // Menu Principal
-window.mostrarMenuPrincipal = function(onIniciar) {
+window.mostrarMenuPrincipal = function (onIniciar) {
     if (typeof Swal !== "undefined") {
         Swal.fire({
             html: `
@@ -279,9 +279,9 @@ window.mostrarMenuPrincipal = function(onIniciar) {
 
                     <div class="swal-section-label" style="margin-top:10px;">Como Jogar</div>
                     <div class="swal-instructions" style="text-align:left;font-size:11px;line-height:1.4;margin:6px auto 0;max-width:320px;">
-                        <div>🕹️ Use as setas para mover o jacaré</div>
+                        <div>🕹️ Use as setas ou toque na tela para mover o jacaré</div>
+                        <div>🕹️ Dê um clique na tela, ou pressione espaço para pular</div>
                         <div>⏱️ Sobreviva o máximo de tempo possível</div>
-                        <div>🏆 Bata seu recorde de pontuação</div>
                     </div>
 
                     <div class="swal-btn-row" style="margin-top:16px;">
@@ -312,7 +312,7 @@ window.mostrarMenuPrincipal = function(onIniciar) {
 };
 
 // Tela de Pausa
-window.mostrarPausa = function(onContinuar) {
+window.mostrarPausa = function (onContinuar) {
     if (typeof Swal !== "undefined") {
         Swal.fire({
             html: `
@@ -350,7 +350,7 @@ window.mostrarPausa = function(onContinuar) {
 // Controle de pausa (tecla Esc/P e botão flutuante)
 window.jogoPausadoAtivo = false;
 
-window.alternarPausa = function() {
+window.alternarPausa = function () {
     const runtime = window.gameRuntime;
     if (!runtime) {
         console.warn("[Pausa] runtime ainda não disponível (window.gameRuntime indefinido).");
@@ -368,26 +368,26 @@ window.alternarPausa = function() {
     runtime.globalVars.Pausado = 1;
     runtime.timeScale = 0;
 
-    window.mostrarPausa(function() {
+    window.mostrarPausa(function () {
         window.jogoPausadoAtivo = false;
         runtime.globalVars.Pausado = 0;
         runtime.timeScale = 1;
     });
 };
 
-document.addEventListener("keydown", function(e) {
+document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" || e.key === "p" || e.key === "P") {
         window.alternarPausa();
     }
 });
 
 // Botão flutuante de pausa
-window.mostrarBotaoPausa = function() {
+window.mostrarBotaoPausa = function () {
     const btn = document.getElementById("botao-pausa");
     if (btn) btn.style.display = "flex";
 };
 
-window.ocultarBotaoPausa = function() {
+window.ocultarBotaoPausa = function () {
     const btn = document.getElementById("botao-pausa");
     if (btn) btn.style.display = "none";
 };
@@ -422,14 +422,14 @@ window.ocultarBotaoPausa = function() {
         align-items: center;
         justify-content: center;
     `;
-    btn.addEventListener("click", function() {
+    btn.addEventListener("click", function () {
         window.alternarPausa();
     });
     document.body.appendChild(btn);
 })();
 
 // Tela de Game Over
-window.mostrarGameOver = function(pontosFinais, onReiniciar, onIrMenu) {
+window.mostrarGameOver = function (pontosFinais, onReiniciar, onIrMenu) {
     window.ocultarBotaoPausa();
     window.atualizarPontuacaoSessao(pontosFinais);
 
