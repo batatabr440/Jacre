@@ -575,21 +575,117 @@ footer.site .brand {
 }
 
 /* ---------- JOGO PAGE ---------- */
+
+/* container externo: agrupa a barra de ferramentas + o quadro do jogo */
+.game-shell {
+  /* Cabe 540px de largura ou 100% do container */
+  width: min(540px, 100%);
+  margin: 0 auto;
+}
+
+/* barra com os botões (tela cheia / fechar), FORA do quadro do jogo,
+   pra nunca sobrepor o placar/UI desenhado dentro do jogo */
+.game-toolbar {
+  display: none;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 0 8px;
+}
+
+.game-toolbar.visible {
+  display: flex;
+}
+
+.game-tool-btn {
+  background: rgba(15, 28, 21, .75);
+  border: 1px solid var(--surface-line);
+  border-radius: 8px;
+  color: var(--cream);
+  font-size: 1.1rem;
+  font-weight: 700;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .2s, transform .1s, border-color .2s;
+  backdrop-filter: blur(4px);
+}
+
+.game-tool-btn:hover {
+  background: rgba(193, 68, 58, .8);
+  border-color: var(--alert);
+  transform: scale(1.1);
+}
+
 .game-frame-wrap {
   border: 2px solid var(--surface-line);
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: #0f1c15;
-  /* Cabe 540px de largura ou 100% do container, mas a altura máx é 82vh */
-  width: min(540px, 100%);
+  /* largura já considera o teto de 82vh, então a proporção 540:960
+     nunca precisa ser "cortada" pelo max-height — evita o quadro
+     ficar torto e descentralizado em celulares com tela baixa */
+  width: min(540px, 100%, calc(82vh * 540 / 960));
   aspect-ratio: 540 / 960;
   max-height: 82vh;
-  /* Largura calculada pela altura quando tela for pequena */
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+}
+
+/* modo tela cheia "falso" via CSS: cobre a viewport inteira.
+   Funciona igual em iOS Safari, Android e desktop (a Fullscreen API
+   nativa do navegador não é confiável no Safari do iPhone). */
+.game-frame-wrap.is-fullscreen {
+  position: fixed;
+  inset: 0;
+  /* 100% em vez de 100vw/100vh: o "inset: 0" já cola nas bordas da
+     viewport visível; 100vw pode ser mais largo que ela em mobile
+     (por causa da faixa da barra de rolagem) e gerar overflow lateral */
+  width: 100%;
+  height: 100%;
+  max-height: 100vh;
+  aspect-ratio: auto;
+  z-index: 9999;
+  border-radius: 0;
+  border-width: 0;
+  margin: 0;
+}
+
+body.game-fullscreen-active {
+  overflow: hidden;
+}
+
+/* em tela cheia, a barra precisa "grudar" na viewport com z-index
+   maior que o do quadro do jogo, senão o jogo cobre os botões */
+body.game-fullscreen-active .game-toolbar {
+  position: fixed;
+  /* canto inferior em vez de superior: o placar do jogo costuma
+     ficar no topo, então aqui reduz a chance de sobreposição.
+     env(safe-area-inset-*) respeita a barra de gestos do iPhone. */
+  bottom: max(12px, env(safe-area-inset-bottom));
+  right: max(12px, env(safe-area-inset-right));
+  top: auto;
+  left: auto;
+  z-index: 10000;
+  padding: 0;
+  transition: opacity .4s ease;
+}
+
+/* depois de alguns segundos sem toque, o botão esmaece pra não
+   ficar cobrindo a tela do jogo; volta ao normal ao tocar perto dele */
+body.game-fullscreen-active .game-toolbar.is-idle {
+  opacity: .3;
+}
+
+/* em tela cheia, só o botão de minimizar fica visível —
+   o de fechar (✕) tampava o placar do jogo */
+body.game-fullscreen-active #game-close-btn {
+  display: none;
 }
 
 .game-frame-wrap iframe {
@@ -663,38 +759,6 @@ footer.site .brand {
 .game-overlay .play-btn:hover {
   background: var(--cream);
   transform: scale(1.04);
-}
-
-/* botão fechar jogo */
-.game-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 20;
-  background: rgba(15, 28, 21, .75);
-  border: 1px solid var(--surface-line);
-  border-radius: 8px;
-  color: var(--cream);
-  font-size: 1rem;
-  font-weight: 700;
-  width: 36px;
-  height: 36px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background .2s, transform .1s, border-color .2s;
-  backdrop-filter: blur(4px);
-}
-
-.game-close-btn:hover {
-  background: rgba(193, 68, 58, .8);
-  border-color: var(--alert);
-  transform: scale(1.1);
-}
-
-.game-close-btn.visible {
-  display: flex;
 }
 
 .game-placeholder {
