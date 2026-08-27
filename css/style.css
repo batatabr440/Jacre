@@ -173,11 +173,17 @@ header.site{
   }
   .nav-links.open{max-height:400px;}
   .nav-links a{
+  .nav-links li{
+    border-top:1px solid var(--surface-line);
+  }
+  .nav-links li a{
     padding:1em 24px;
+    display:block;
     width:100%;
     border-top:1px solid var(--surface-line);
   }
 }
+
 
 /* ---------- HERO ---------- */
 .hero{
