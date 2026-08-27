@@ -42,20 +42,24 @@
 
     <section class="section-alt">
       <div class="wrap">
-        <div class="game-frame-wrap">
-          <!-- iframe começa sem src; só carrega ao clicar no overlay -->
-          <iframe id="game-iframe" src="" title="Jogo Jacré" allow="autoplay"></iframe>
-
-          <!-- overlay "clique para jogar" -->
-          <div class="game-overlay" id="game-overlay">
-            <div class="game-overlay-icon">🐊</div>
-            <p>Pronto para jogar?</p>
-            <button class="play-btn" id="game-play-btn">▶ Pressione para começar</button>
+        <div class="game-shell">
+          <!-- barra com os botões, FORA do quadro do jogo (evita sobrepor o placar) -->
+          <div class="game-toolbar" id="game-toolbar">
+            <button class="game-tool-btn" id="game-fullscreen-btn" title="Tela cheia">⛶</button>
+            <button class="game-tool-btn" id="game-close-btn" title="Fechar jogo">✕</button>
           </div>
 
-          <!-- botão fechar (aparece após iniciar) -->
-          <button class="game-close-btn" id="game-close-btn" title="Fechar jogo">✕</button>
+          <div class="game-frame-wrap">
+            <!-- iframe começa sem src; só carrega ao clicar no overlay -->
+            <iframe id="game-iframe" src="" title="Jogo Jacré" allow="autoplay"></iframe>
 
+            <!-- overlay "clique para jogar" -->
+            <div class="game-overlay" id="game-overlay">
+              <div class="game-overlay-icon">🐊</div>
+              <p>Pronto para jogar?</p>
+              <button class="play-btn" id="game-play-btn">▶ Pressione para começar</button>
+            </div>
+          </div>
         </div>
 
 
@@ -98,20 +102,62 @@
     const gameOverlay = document.getElementById('game-overlay');
     const gamePlayBtn = document.getElementById('game-play-btn');
     const gameCloseBtn = document.getElementById('game-close-btn');
+    const gameToolbar = document.getElementById('game-toolbar');
+    const gameFullscreenBtn = document.getElementById('game-fullscreen-btn');
+    const gameFrameWrap = document.querySelector('.game-frame-wrap');
+
+    let isFullscreen = false;
+    let idleTimer = null;
+
+    // --- Em tela cheia, apaga a toolbar depois de 2.5s parado e
+    //     volta a mostrar assim que o usuário encosta na tela ---
+    function resetIdleTimer() {
+      if (!isFullscreen) return;
+      gameToolbar.classList.remove('is-idle');
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(function () {
+        gameToolbar.classList.add('is-idle');
+      }, 2500);
+    }
+
+    function stopIdleTimer() {
+      clearTimeout(idleTimer);
+      gameToolbar.classList.remove('is-idle');
+    }
 
     // --- Click-to-play: só carrega o jogo quando o usuário clicar ---
     function startGame() {
       gameIframe.src = 'jogo/index.html';
       gameOverlay.classList.add('hidden');
-      gameCloseBtn.classList.add('visible');
+      gameToolbar.classList.add('visible');
       gameIframe.focus();
     }
 
-    // --- Fechar: descarrega o jogo e volta ao overlay ---
+    // --- Fechar: descarrega o jogo, volta ao overlay e sai da tela cheia ---
     function stopGame() {
       gameIframe.src = '';
       gameOverlay.classList.remove('hidden');
-      gameCloseBtn.classList.remove('visible');
+      gameToolbar.classList.remove('visible');
+      if (isFullscreen) toggleFullscreen();
+    }
+
+    // --- Tela cheia (CSS, não usa Fullscreen API nativa: mais confiável no iPhone) ---
+    function toggleFullscreen() {
+      isFullscreen = !isFullscreen;
+      gameFrameWrap.classList.toggle('is-fullscreen', isFullscreen);
+      document.body.classList.toggle('game-fullscreen-active', isFullscreen);
+      gameFullscreenBtn.textContent = isFullscreen ? '⤢' : '⛶';
+      gameFullscreenBtn.title = isFullscreen ? 'Sair da tela cheia' : 'Tela cheia';
+
+      if (isFullscreen) {
+        resetIdleTimer();
+        gameFrameWrap.addEventListener('touchstart', resetIdleTimer, { passive: true });
+        gameFrameWrap.addEventListener('mousemove', resetIdleTimer);
+      } else {
+        stopIdleTimer();
+        gameFrameWrap.removeEventListener('touchstart', resetIdleTimer);
+        gameFrameWrap.removeEventListener('mousemove', resetIdleTimer);
+      }
     }
 
     gamePlayBtn.addEventListener('click', startGame);
@@ -122,6 +168,11 @@
     gameCloseBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       stopGame();
+    });
+
+    gameFullscreenBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      toggleFullscreen();
     });
   </script>
 </body>
