@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato — Jacré</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <header class="site">
+    <nav class="nav">
+      <a href="index.html" class="brand">Jac<span class="dot">ré</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="cuidados.html">Cuidados</a></li>
+        <li><a href="zoonoses.html">Zoonoses</a></li>
+        <li><a href="jogo.html">Jogo</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" style="padding-bottom:10px">
+      <div class="wrap">
+        <p class="eyebrow">Fale com a gente</p>
+        <h1>Dúvida, relato ou sugestão</h1>
+        <p class="lead">Encontrou um réptil fora de lugar, tem uma dúvida sobre cuidados, ou só quer comentar o jogo?
+          Preencha o formulário abaixo.</p>
+      </div>
+    </section>
+
+    <svg class="wave" viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path d="M0 30 Q 360 70 720 30 T 1440 30 V70 H0 Z" />
+    </svg>
+
+    <section class="section-alt">
+      <div class="wrap">
+        <form class="form-card" id="contato-form" novalidate>
+          <div class="field">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" name="nome" placeholder="Como podemos te chamar?">
+            <p class="error-msg">Digite seu nome completo (mínimo 3 letras).</p>
+          </div>
+
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="nome@exemplo.com">
+            <p class="error-msg">Digite um e-mail válido, ex: nome@exemplo.com.</p>
+          </div>
+
+          <div class="field">
+            <label for="assunto">Assunto</label>
+            <select id="assunto" name="assunto">
+              <option value="">Selecione…</option>
+              <option value="Encontrei um réptil solto">Encontrei um réptil solto</option>
+              <option value="Dúvida sobre cuidados">Dúvida sobre cuidados</option>
+              <option value="Comentário sobre o jogo">Comentário sobre o jogo</option>
+              <option value="Outro assunto">Outro assunto</option>
+            </select>
+            <p class="error-msg">Selecione o assunto do contato.</p>
+          </div>
+
+          <div class="field">
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" placeholder="Conte com detalhes o que está acontecendo…"></textarea>
+            <p class="error-msg">Conte com um pouco mais de detalhe (mínimo 10 caracteres).</p>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Enviar mensagem</button>
+
+          <dl class="confirm-box" id="confirm-box">
+            <p class="eyebrow" style="margin-bottom:.6em">Recebemos o seguinte</p>
+            <dt>Nome</dt>
+            <dd id="out-nome"></dd>
+            <dt>E-mail</dt>
+            <dd id="out-email"></dd>
+            <dt>Assunto</dt>
+            <dd id="out-assunto"></dd>
+            <dt>Mensagem</dt>
+            <dd id="out-mensagem"></dd>
+          </dl>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="wrap footer-grid">
+      <div>
+        <p class="brand">Jac<span class="dot">ré</span></p>
+        <p>Site educativo desenvolvido como atividade curricular.<br>⚠️ As informações são apenas ilustrativas para o trabalho e não 100% oficiais!</p>
+      </div>
+      <div class="footer-whatsapp">
+        <p><strong>Atendimento via WhatsApp:</strong> Seg. a Sex. das 8h às 18h</p>
+        <p><a href="https://wa.me/5544991429919" target="_blank" rel="noopener noreferrer">💬 (44) 99142-9919 — Tirar
+            dúvidas</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>

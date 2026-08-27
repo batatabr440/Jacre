@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo Jacré — rela na lagoa</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <header class="site">
+    <nav class="nav">
+      <a href="index.html" class="brand">Jac<span class="dot">ré</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="cuidados.html">Cuidados</a></li>
+        <li><a href="zoonoses.html">Zoonoses</a></li>
+        <li><a href="jogo.html">Jogo</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" style="padding-bottom:10px">
+      <div class="wrap">
+        <p class="eyebrow">Hora do recreio</p>
+        <h1>Jacré, o jogo</h1>
+        <p class="lead">Inspirado no clássico meme "rela no jacaré", esse mini-jogo é a pausa boba entre um cuidado e
+          outro. Feito em Low Code com lógica própria em JavaScript.</p>
+      </div>
+    </section>
+
+    <svg class="wave" viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path d="M0 30 Q 360 70 720 30 T 1440 30 V70 H0 Z" />
+    </svg>
+
+    <section class="section-alt">
+      <div class="wrap">
+        <div class="game-frame-wrap">
+          <!-- iframe começa sem src; só carrega ao clicar no overlay -->
+          <iframe id="game-iframe" src="" title="Jogo Jacré" allow="autoplay"></iframe>
+
+          <!-- overlay "clique para jogar" -->
+          <div class="game-overlay" id="game-overlay">
+            <div class="game-overlay-icon">🐊</div>
+            <p>Pronto para jogar?</p>
+            <button class="play-btn" id="game-play-btn">▶ Pressione para começar</button>
+          </div>
+
+          <!-- botão fechar (aparece após iniciar) -->
+          <button class="game-close-btn" id="game-close-btn" title="Fechar jogo">✕</button>
+
+        </div>
+
+
+        <div class="card-grid mt-lg">
+          <div class="card">
+            <span class="num">Como jogar</span>
+            <p>Use o teclado conforme as instruções do próprio jogo para ajudar o jacaré a se alimentar.</p>
+          </div>
+          <div class="card">
+            <span class="num">Tecnologia</span>
+            <p>Personagens e elementos criados através do Construct 3 com acompanhamento de um professor</p>
+          </div>
+          <div class="card">
+            <span class="num">Dica</span>
+            <p>Jogou e gostou? Conta pra gente pelo formulário ou pelo whatsapp o que achou.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="wrap footer-grid">
+      <div>
+        <p class="brand">Jac<span class="dot">ré</span></p>
+        <p>Site educativo desenvolvido como atividade curricular.<br>⚠️ As informações são apenas ilustrativas para o
+          trabalho e não 100% oficiais!</p>
+      </div>
+      <div class="footer-whatsapp">
+        <p><strong>Atendimento via WhatsApp:</strong> Seg. a Sex. das 8h às 18h</p>
+        <p><a href="https://wa.me/5544991429919" target="_blank" rel="noopener noreferrer">💬 (44) 99142-9919 — Tirar
+            dúvidas</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+  <script>
+    const gameIframe = document.getElementById('game-iframe');
+    const gameOverlay = document.getElementById('game-overlay');
+    const gamePlayBtn = document.getElementById('game-play-btn');
+    const gameCloseBtn = document.getElementById('game-close-btn');
+
+    // --- Click-to-play: só carrega o jogo quando o usuário clicar ---
+    function startGame() {
+      gameIframe.src = 'jogo/index.html';
+      gameOverlay.classList.add('hidden');
+      gameCloseBtn.classList.add('visible');
+      gameIframe.focus();
+    }
+
+    // --- Fechar: descarrega o jogo e volta ao overlay ---
+    function stopGame() {
+      gameIframe.src = '';
+      gameOverlay.classList.remove('hidden');
+      gameCloseBtn.classList.remove('visible');
+    }
+
+    gamePlayBtn.addEventListener('click', startGame);
+    gameOverlay.addEventListener('click', function (e) {
+      startGame();
+    });
+
+    gameCloseBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      stopGame();
+    });
+  </script>
+</body>
+
+</html>
